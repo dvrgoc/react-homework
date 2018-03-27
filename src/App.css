@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  /*animation: App-logo-spin infinite 20s linear;*/
-  /*height: 80px;*/
-}
-
 .App-header {
   background-color: #0072ce;
   height: 150px;
@@ -22,29 +17,32 @@
   font-size: large;
 }
 
-/*@keyframes App-logo-spin {*/
-  /*from { transform: rotate(0deg); }*/
-  /*to { transform: rotate(360deg); }*/
-/*}*/
-
 .App-clearfix {
     clear: both;
     float: none;
 }
 
-.App-f-left {
-    float: left;
+.App-table {
+    width: 100%;
 }
 
-.App-f-right {
-    float: right;
+.App-table tfoot tr td {
+    padding-top: 20px;
 }
 
-.App-w-1-4 {
-    width: 25%;
-}
+@media all and (min-width: 768px) {
+    .App-f-left {
+        float: left;
+    }
+    .App-f-right {
+        float: right;
+    }
 
-.App-w-3-4 {
-    width: 75%;
+    .App-w-1-4 {
+        width: 25%;
+    }
+    .App-w-3-4 {
+        width: 75%;
+    }
 }
 

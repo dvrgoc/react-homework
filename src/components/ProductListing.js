@@ -36,13 +36,14 @@ class ProductListing extends Component {
                 "rating": 7.5,
                 "qty": 6
             }],
-            productCartIDs: [4,2], //push, pop
+            productCartIDs: [],
             cartTotal: 0
         };
     }
 
     renderProductsInCart() {
         let subtotal = 0;
+        let self = this;
         const productsData = this.state.productsData;
 
         const productsCartData = productsData.filter(productData => this.state.productCartIDs.includes(productData.id));
@@ -52,22 +53,27 @@ class ProductListing extends Component {
         });
 
         return(
-            <table style={{width: '100%'}}>
+            <table className="App-table">
                 <tbody>
-                {productsCartData.map(productCartdata => {
-                    return <tr key={productCartdata.id}>
-                        <td>{productCartdata.name}</td>
-                        <td>
-                            <button>Remove from Cart</button>
-                        </td>
-                    </tr>
+                {productsCartData.map(productCartData => {
+                    return (
+                        <tr key={productCartData.id}>
+                            <td>{productCartData.name}</td>
+                            <td>
+                                <button
+                                    id={`remove-${productCartData.id}`}
+                                    onClick={this.onRemoveFromCart.bind(this, self, productCartData.id)}
+                                    >Remove from Cart</button>
+                            </td>
+                        </tr>
+                    )
                 })}
 
                 </tbody>
                 <tfoot>
                 <tr>
                     <td>Total</td>
-                    <td>{subtotal} {CURRENCY}</td>
+                    <td><strong>{subtotal} {CURRENCY}</strong></td>
                 </tr>
                 </tfoot>
             </table>
@@ -75,8 +81,11 @@ class ProductListing extends Component {
     }
 
     renderProductsAll() {
+        let self = this;
+        const productsData = this.state.productsData;
+
         return (
-            <table style={{width: '100%'}}>
+            <table className="App-table">
                 <thead>
                     <tr>
                         <td><strong>name</strong></td>
@@ -88,7 +97,7 @@ class ProductListing extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                {this.state.productsData.map(function (product) {
+                {productsData.map(function (product) {
                     return <tr key={product.id}>
                         <td>{product.name}</td>
                         <td>{product.rating}</td>
@@ -96,7 +105,9 @@ class ProductListing extends Component {
                         <td>{product.qty}</td>
                         <td>{product.price} {CURRENCY}</td>
                         <td>
-                            <button>Add to Cart</button>
+                            <button
+                                id={`add-${product.id}`}
+                                onClick={self.onAddToCart.bind(this, self, product.id)}>Add to Cart</button>
                         </td>
                     </tr>
                 })}
@@ -119,6 +130,18 @@ class ProductListing extends Component {
                     </div>
                 </div>
         </div>)
+    }
+
+    onAddToCart = (obj, ID) => {
+        obj.setState(prevState => ({
+            productCartIDs: [...prevState.productCartIDs, ID]
+        }))
+    }
+
+    onRemoveFromCart = (obj, ID) => {
+        obj.setState({
+            productCartIDs: this.state.productCartIDs.filter(productID => productID !== ID)
+        });
     }
 }
 
